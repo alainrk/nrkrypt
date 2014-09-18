@@ -12,6 +12,8 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.spec.AlgorithmParameterSpec;
+import java.util.Arrays;
+import java.util.Random;
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
@@ -42,26 +44,15 @@ public class Encryption {
     // The initialization vector needed by the CBC mode
     byte[] IV = null;
 
-    public Encryption(){
-        //for a 192 key you must install the unrestricted policy files
-        //  from the JCE/JDK downloads page
+    public Encryption(/*String pass*/){
+        Random rand;
         key = "SECRET_1SECRET_2".getBytes();
-        //default IV value initialized with 0
+        //get the key and the IV
+        //key = pass.getBytes();
         IV = new byte[blockSize];
-    }
+        rand = new Random();
+        rand.nextBytes(IV);
 
-    public Encryption(String pass, byte[] iv){
-        //get the key and the IV
-        key = pass.getBytes();
-        IV = new byte[blockSize];
-        System.arraycopy(iv, 0 , IV, 0, iv.length);
-    }
-    public Encryption(byte[] pass, byte[]iv){
-        //get the key and the IV
-        key = new byte[pass.length];
-        System.arraycopy(pass, 0 , key, 0, pass.length);
-        IV = new byte[blockSize];
-        System.arraycopy(iv, 0 , IV, 0, iv.length);
     }
 
     public void InitCiphers()
@@ -71,6 +62,9 @@ public class Encryption {
             NoSuchPaddingException,
             InvalidKeyException,
             InvalidAlgorithmParameterException{
+        
+        System.out.println(Arrays.toString(IV));
+        
        //1. create the cipher using Bouncy Castle Provider
        encryptCipher =
                Cipher.getInstance("AES/CBC/PKCS5Padding", "BC");
@@ -78,6 +72,8 @@ public class Encryption {
        SecretKey keyValue = new SecretKeySpec(key,"AES");
        //3. create the IV
        AlgorithmParameterSpec IVspec = new IvParameterSpec(IV);
+       IvParameterSpec bla = new IvParameterSpec(IV);
+        System.out.println(Arrays.toString(bla.getIV()));
        //4. init the cipher
        encryptCipher.init(Cipher.ENCRYPT_MODE, keyValue, IVspec);
 

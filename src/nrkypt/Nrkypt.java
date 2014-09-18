@@ -39,16 +39,10 @@ public class Nrkypt {
     public static void main(String[] args) throws NoSuchAlgorithmException, NoSuchPaddingException, UnsupportedEncodingException, InvalidKeyException, FileNotFoundException, IOException, IllegalBlockSizeException, BadPaddingException, ShortBufferException {
 
         try {
-            FileInputStream fis =
-                    new FileInputStream(new File("plain"));
-            FileOutputStream fos =
-                    new FileOutputStream(new File("ciph"));
+            FileInputStream fis = new FileInputStream(new File("plain"));
+            FileOutputStream fos = new FileOutputStream(new File("ciph"));
  
-            //solution 1
-            //BouncyCastleAPI_AES_CBC bc = new BouncyCastleAPI_AES_CBC();
-            //solution 2
-            Encryption bc =
-                    new Encryption();
+            Encryption bc = new Encryption();
             bc.InitCiphers();
  
             //encryption
@@ -76,6 +70,8 @@ public class Nrkypt {
  
         System.out.println("Test done !");
         return;
+        
+        
         /*
         //add at runtime the Bouncy Castle Provider
     	//the provider is available only for this application
