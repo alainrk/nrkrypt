@@ -4,6 +4,7 @@
  */
 package nrkypt;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -20,7 +21,11 @@ import org.bouncycastle.crypto.paddings.PaddedBufferedBlockCipher;
 
 import javax.crypto.*;
 import java.security.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.crypto.spec.SecretKeySpec;
+import org.bouncycastle.crypto.DataLengthException;
+import sun.applet.Main;
 
 /**
  *
@@ -31,7 +36,47 @@ public class Nrkypt {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws NoSuchAlgorithmException, NoSuchPaddingException, UnsupportedEncodingException, InvalidKeyException, FileNotFoundException, IOException {
+    public static void main(String[] args) throws NoSuchAlgorithmException, NoSuchPaddingException, UnsupportedEncodingException, InvalidKeyException, FileNotFoundException, IOException, IllegalBlockSizeException, BadPaddingException, ShortBufferException {
+
+        try {
+            FileInputStream fis =
+                    new FileInputStream(new File("plain"));
+            FileOutputStream fos =
+                    new FileOutputStream(new File("ciph"));
+ 
+            //solution 1
+            //BouncyCastleAPI_AES_CBC bc = new BouncyCastleAPI_AES_CBC();
+            //solution 2
+            Encryption bc =
+                    new Encryption();
+            bc.InitCiphers();
+ 
+            //encryption
+            bc.CBCEncrypt(fis, fos);
+ 
+            fis = new FileInputStream(new File("ciph"));
+            fos = new FileOutputStream(new File("replain"));
+ 
+            //decryption
+            bc.CBCDecrypt(fis, fos);
+ 
+        } catch (ShortBufferException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalBlockSizeException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (BadPaddingException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (DataLengthException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalStateException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+ 
+        System.out.println("Test done !");
+        return;
+        /*
         //add at runtime the Bouncy Castle Provider
     	//the provider is available only for this application
     	Security.addProvider(new BouncyCastleProvider());
@@ -51,19 +96,21 @@ public class Nrkypt {
                 );
         
         //////////////////////////////////////////////////////////////////////////////////////////////////
-        String pass = "b";
+        String pass = "abccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc";
         
         MessageDigest mDigest = MessageDigest.getInstance("SHA1");
-        byte[] result = mDigest.digest(pass.getBytes());
+        mDigest.update(pass.getBytes());
+        byte[] result = mDigest.digest();
+        System.out.println("DEBUG\t SHA1: " + bytesToHex(result) + " --- " + result.length);
         StringBuffer sb = new StringBuffer();
         for (int i = 0; i < result.length; i++) {
             sb.append(Integer.toString((result[i] & 0xff) + 0x100, 16).substring(1));
         }
         
         String hash = sb.toString();
-        System.out.println("DEBUG\t Hashed password: " + sb.toString());
+        System.out.println("DEBUG\t Hashed password: " + hash);
         
-        byte[] hashbytes = sb.toString().getBytes();
+        byte[] hashbytes = hash.getBytes();
         byte[] key = new byte[(hashbytes.length / 2) - 4];
         
         for(int i = 0; i < key.length; i++){
@@ -73,9 +120,11 @@ public class Nrkypt {
 
         SecretKeySpec AESkey = new SecretKeySpec(key, "AES");
         
+        System.out.println("DEBUG\t " + key.toString() + " --- " + AESkey.hashCode());
+        
         //CRYPT
         
-        Cipher c = Cipher.getInstance("AES");
+        Cipher c = Cipher.getInstance("AES/ECB/PKCS5Padding");
         c.init(Cipher.ENCRYPT_MODE,AESkey);
         System.out.println("DEBUG\t AES Cipher key initialized");
         
@@ -92,11 +141,12 @@ public class Nrkypt {
             cosc.write(b, 0, i);
             i = fisc.read(b);
         }
+        //c.doFinal();
         cosc.flush();
     
         //DECRYPT
         
-        Cipher d = Cipher.getInstance("AES");
+        Cipher d = Cipher.getInstance("AES/ECB/PKCS5Padding");
         
         FileInputStream fisd;
         FileOutputStream fosd;
@@ -107,12 +157,30 @@ public class Nrkypt {
         fisd = new FileInputStream("ciph");
         fosd = new FileOutputStream("replain");
         cosd = new CipherOutputStream(fosd, d);
-        b = new byte[8];
-        i = fisd.read(b);
+
+        byte[] b2 = new byte[1];
+        b2 = new byte[8];
+        i = fisd.read(b2);
         while (i != -1) {
-            cosd.write(b, 0, i);
-            i = fisd.read(b);
+            cosd.write(b2, 0, i);
+            i = fisd.read(b2);
         }
+        d.doFinal();
         cosd.flush();
     }
+    
+    
+    public static String bytesToHex(byte[] b) {
+      char hexDigit[] = {'0', '1', '2', '3', '4', '5', '6', '7',
+                         '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
+      StringBuffer buf = new StringBuffer();
+      for (int j=0; j<b.length; j++) {
+         buf.append(hexDigit[(b[j] >> 4) & 0x0f]);
+         buf.append(hexDigit[b[j] & 0x0f]);
+      }
+      return buf.toString();
+   */
+        
+   }
+    
 }
