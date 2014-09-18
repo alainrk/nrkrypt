@@ -4,6 +4,10 @@
  */
 package nrkypt;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.security.Security;
@@ -27,7 +31,7 @@ public class Nrkypt {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws NoSuchAlgorithmException, NoSuchPaddingException, UnsupportedEncodingException, InvalidKeyException {
+    public static void main(String[] args) throws NoSuchAlgorithmException, NoSuchPaddingException, UnsupportedEncodingException, InvalidKeyException, FileNotFoundException, IOException {
         //add at runtime the Bouncy Castle Provider
     	//the provider is available only for this application
     	Security.addProvider(new BouncyCastleProvider());
@@ -46,7 +50,7 @@ public class Nrkypt {
 		new CBCBlockCipher(engine)
                 );
         
-        
+        //////////////////////////////////////////////////////////////////////////////////////////////////
         String pass = "b";
         
         MessageDigest mDigest = MessageDigest.getInstance("SHA1");
@@ -57,7 +61,7 @@ public class Nrkypt {
         }
         
         String hash = sb.toString();
-        //System.out.println(hash.getBytes().length + " " + sb.toString());
+        System.out.println("DEBUG\t Hashed password: " + sb.toString());
         
         byte[] hashbytes = sb.toString().getBytes();
         byte[] key = new byte[(hashbytes.length / 2) - 4];
@@ -68,7 +72,47 @@ public class Nrkypt {
         }
 
         SecretKeySpec AESkey = new SecretKeySpec(key, "AES");
+        
+        //CRYPT
+        
         Cipher c = Cipher.getInstance("AES");
-        c.init(Cipher.SECRET_KEY,AESkey);
+        c.init(Cipher.ENCRYPT_MODE,AESkey);
+        System.out.println("DEBUG\t AES Cipher key initialized");
+        
+        FileInputStream fisc;
+        FileOutputStream fosc;
+        CipherOutputStream cosc;
+    
+        fisc = new FileInputStream("plain");
+        fosc = new FileOutputStream("ciph");
+        cosc = new CipherOutputStream(fosc, c);
+        byte[] b = new byte[8];
+        int i = fisc.read(b);
+        while (i != -1) {
+            cosc.write(b, 0, i);
+            i = fisc.read(b);
+        }
+        cosc.flush();
+    
+        //DECRYPT
+        
+        Cipher d = Cipher.getInstance("AES");
+        
+        FileInputStream fisd;
+        FileOutputStream fosd;
+        CipherOutputStream cosd;
+        
+        d.init(Cipher.DECRYPT_MODE,AESkey);
+        System.out.println("DEBUG\t AES Decrypter key initialized");
+        fisd = new FileInputStream("ciph");
+        fosd = new FileOutputStream("replain");
+        cosd = new CipherOutputStream(fosd, d);
+        b = new byte[8];
+        i = fisd.read(b);
+        while (i != -1) {
+            cosd.write(b, 0, i);
+            i = fisd.read(b);
+        }
+        cosd.flush();
     }
 }
