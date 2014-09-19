@@ -42,7 +42,7 @@ public class Nrkypt {
             FileInputStream fis = new FileInputStream(new File("plain"));
             FileOutputStream fos = new FileOutputStream(new File("ciph"));
  
-            Encryption bc = new Encryption();
+            Encryption bc = new Encryption("1234567890123456789");
             bc.InitCiphers();
  
             //encryption

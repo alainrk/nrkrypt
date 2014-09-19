@@ -44,8 +44,9 @@ public class Encryption {
     // The initialization vector needed by the CBC mode
     byte[] IV = null;
 
-    public Encryption(/*String pass*/){
+    public Encryption(String pass){
         Random rand;
+        chechAndGetPasswd(pass);
         key = "SECRET_1SECRET_2".getBytes();
         //get the key and the IV
         //key = pass.getBytes();
@@ -149,6 +150,31 @@ public class Encryption {
        //close the files
        fos.close();
        fis.close();
+    }
+
+    private int chechAndGetPasswd(String pass) {
+        if (pass.length()<8){
+            System.err.println("DEBUG\t Password too short");
+            return -1;
+        }
+        if (pass.length()>16){
+            pass = pass.substring(0, 16);
+            System.out.println("DEBUG\t Password too long: " + pass);
+            return 0;
+        }
+        if (pass.length()>=8 & pass.length()<16){
+            int paddLength = 16 - pass.length();
+            for (int i=0;i<paddLength;i++){
+                pass = pass.concat("0");
+            }
+        System.out.println("DEBUG\t Password too short padded: " + pass);
+        return 0;
+        }
+        if (pass.length() == 16){
+            System.out.println("DEBUG\t Password exactly 16 byte long");
+            return 0;
+        }
+        return -1;
     }
     
 }
