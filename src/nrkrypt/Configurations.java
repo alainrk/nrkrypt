@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package nrkrypt;
 
 /**
@@ -14,31 +10,32 @@ public class Configurations {
     protected static String fileNameCurrentPlainPasswdDB = "";
     protected static String fileNameUsersXML = "users.xml"; //FIXME Hardcoded
 
+    public String getFileNameUsersXML() {
+        return fileNameUsersXML;
+    }
+
     public String getPathOfMainFolder() {
         return pathOfMainFolder;
     }
 
-    public static void setPathOfMainFolder(String pathOfMainFolder) {
+    public void setPathOfMainFolder(String pathOfMainFolder) {
         Configurations.pathOfMainFolder = pathOfMainFolder;
     }
 
-    public static String getFileNameCurrentCyphPasswdDB() {
+    public String getFileNameCurrentCyphPasswdDB() {
         return fileNameCurrentCyphPasswdDB;
     }
 
-    public static void setFileNameCurrentCyphPasswdDB(String fileNameCurrentCyphPasswdDB) {
+    public void setFileNameCurrentCyphPasswdDB(String fileNameCurrentCyphPasswdDB) {
         Configurations.fileNameCurrentCyphPasswdDB = fileNameCurrentCyphPasswdDB;
     }
 
-    public static String getFileNameCurrentPlainPasswdDB() {
+    public String getFileNameCurrentPlainPasswdDB() {
         return fileNameCurrentPlainPasswdDB;
     }
 
-    public static void setFileNameCurrentPlainPasswdDB(String fileNameCurrentPlainPasswdDB) {
+    public void setFileNameCurrentPlainPasswdDB(String fileNameCurrentPlainPasswdDB) {
         Configurations.fileNameCurrentPlainPasswdDB = fileNameCurrentPlainPasswdDB;
-    }
-
-    public Configurations() {
     }
 
     public String getPathOfPasswordDatabase() {

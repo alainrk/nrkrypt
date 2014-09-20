@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package nrkrypt;
 
 import java.io.File;
@@ -41,6 +37,7 @@ public class Nrkypt {
 
         Configurations config = new Configurations();
         File mainFolder = new File(config.getPathOfMainFolder());
+        File usersFile = new File(config.getPathOfMainFolder()+config.getFileNameUsersXML());
         
         if ((!mainFolder.exists())||(!mainFolder.isDirectory())) {
             System.out.println("DEBUG\t Main folder does not exist!");
@@ -50,6 +47,15 @@ public class Nrkypt {
             }
             else
                 System.out.println("DEBUG\t Main Folder created");
+        }
+        if ((!usersFile.exists())||(!mainFolder.isFile())) {
+            System.out.println("DEBUG\t Users File does not exist!");
+            if (!usersFile.createNewFile()) { //TODO: Creare file XML, non semplice file
+                System.err.println("DEBUG\t An error occured in Users File creation");
+                return;
+            }
+            else
+                System.out.println("DEBUG\t Users File created");
         }
         
         try {
