@@ -25,14 +25,10 @@ public class SingletonRequests {
     private String CURRENT_USER_NAME = "";
 
     public SingletonRequests() {
-        File f = new File(Configurations.pathOfMainFolder+Configurations.fileNameUsersXML); 
-	  if(f.exists()){
-              System.out.println(Configurations.pathOfMainFolder+Configurations.fileNameUsersXML +"File exist");
-	  }else{
-               System.out.println(Configurations.pathOfMainFolder+Configurations.fileNameUsersXML +"File not found!\nCreating xml...");
-               createMappingUserFile (Configurations.pathOfMainFolder+Configurations.fileNameUsersXML);
-	  }
-        /* Create "XML_MAP_DOC" DOCUMENT for DOM in XML_MAP_FILENAME access */
+        createMappingUserFile (Configurations.pathOfMainFolder+Configurations.fileNameUsersXML);
+
+        // Create "XML_MAP_DOC" DOCUMENT for DOM in XML_MAP_FILENAME access
+        // FIXME: If the file was not already filled with XML does not matter
         DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
         try {
             DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
@@ -261,7 +257,7 @@ public class SingletonRequests {
     
     /****************************************** PRIVATE UTILS ******************************************/
     /* Creates the initial XML File with associations user-userDB */
-    private void createMappingUserFile (String xmlMapFilename){
+    public int createMappingUserFile (String xmlMapFilename){
         try {
             DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
@@ -276,7 +272,9 @@ public class SingletonRequests {
  
         } catch (ParserConfigurationException pce) {
             System.out.println("Error: "+pce.toString());
+            return -1;
         }
+        return 0;
     }
     
     /* Check if user is an item in the XML Map file */

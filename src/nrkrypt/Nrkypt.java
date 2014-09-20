@@ -38,7 +38,7 @@ public class Nrkypt {
         Configurations config = new Configurations();
         File mainFolder = new File(config.getPathOfMainFolder());
         File usersFile = new File(config.getPathOfMainFolder()+config.getFileNameUsersXML());
-        
+        System.out.println(usersFile.getAbsolutePath());
         if ((!mainFolder.exists())||(!mainFolder.isDirectory())) {
             System.out.println("DEBUG\t Main folder does not exist!");
             if (!mainFolder.mkdir()) {
@@ -48,14 +48,21 @@ public class Nrkypt {
             else
                 System.out.println("DEBUG\t Main Folder created");
         }
-        if ((!usersFile.exists())||(!mainFolder.isFile())) {
+        if ((!usersFile.exists())||(!usersFile.isFile())) {
             System.out.println("DEBUG\t Users File does not exist!");
             if (!usersFile.createNewFile()) { //TODO: Creare file XML, non semplice file
                 System.err.println("DEBUG\t An error occured in Users File creation");
                 return;
             }
-            else
+            else {
                 System.out.println("DEBUG\t Users File created");
+                SingletonRequests req = new SingletonRequests();
+                if (req.createMappingUserFile(config.getPathOfMainFolder()+config.getFileNameUsersXML()) == -1){
+                    System.err.println("DEBUG\t An error occured in users XML DOC creation");
+                    return;
+                }
+            }
+                
         }
         
         try {
