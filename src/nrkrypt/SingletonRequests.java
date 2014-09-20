@@ -62,12 +62,12 @@ public class SingletonRequests {
     
     
     
-    public String getTransl (String word){
+    /*public String getTransl (String word){
         NodeList nodes = getNodeListFromDoc(CURRENT_PLAINDB_DOC, "/terms/term/word[text() = '"+word+"']/../transl");
         return (nodes != null) ? nodes.item(0).getTextContent() : null;
-    }
+    }*/
     
-    public ArrayList<String> getAllWords (){
+    /*public ArrayList<String> getAllWords (){
         NodeList nodes = getNodeListFromDoc(CURRENT_PLAINDB_DOC, "/terms/term/word");
         if (nodes == null){
             return null;
@@ -78,10 +78,10 @@ public class SingletonRequests {
             words.add(nodes.item(i).getTextContent());
         }
         return words;
-    }
+    }*/
     
-    public ArrayList<String> getWordsStartWith (String start){
-        NodeList nodes = getNodeListFromDoc(CURRENT_PLAINDB_DOC, "/terms/term/word[starts-with(.,'"+start+"')]");
+    public ArrayList<String> getAccountsMatch (String substr){
+        NodeList nodes = getNodeListFromDoc(CURRENT_PLAINDB_DOC, "/accounts/account[@id[contains('"+substr+"', '%s')]]");
         if (nodes == null){
             return null;
         }
@@ -94,38 +94,66 @@ public class SingletonRequests {
     }
     
     /* Create new term in current userDB, on error return -1 */
-    public int createTerm (String word, String transl){
+    public int createAccount (String account, String name, String email, String nick, String question, String answer, String password, String other){
         // TODO: Check if already exist (USE XPATH ID OR SIMILAR IF POSSIBLE
-        NodeList nodes = getNodeListFromDoc(CURRENT_PLAINDB_DOC, "/terms");
+        NodeList nodes = getNodeListFromDoc(CURRENT_PLAINDB_DOC, "/accounts");
         if (nodes == null) {
             return -1;
         }
-        NodeList nodes2 = getNodeListFromDoc(CURRENT_PLAINDB_DOC, "/terms/term[word[text() = '"+word+"']]");
+        NodeList nodes2 = getNodeListFromDoc(CURRENT_PLAINDB_DOC, "/accounts/account[@id='"+account+"']");
         /* Term already exist */
         if (nodes2 != null) {
             return -1;
         }
-        Element termEl = CURRENT_PLAINDB_DOC.createElement("term");
-        Element wordEl = CURRENT_PLAINDB_DOC.createElement("word");
-        Text wordTxt = CURRENT_PLAINDB_DOC.createTextNode(word);
-        Element translEl = CURRENT_PLAINDB_DOC.createElement("transl");
-        Text translTxt = CURRENT_PLAINDB_DOC.createTextNode(transl);
-        nodes.item(0).appendChild(termEl);
-        termEl.appendChild(wordEl);
-        termEl.appendChild(translEl);
-        wordEl.appendChild(wordTxt);
-        translEl.appendChild(translTxt);
+        Element accountEl = CURRENT_PLAINDB_DOC.createElement("account");
+        Element nameEl = CURRENT_PLAINDB_DOC.createElement("name");
+        Element emailEl = CURRENT_PLAINDB_DOC.createElement("email");
+        Element nickEl = CURRENT_PLAINDB_DOC.createElement("nick");
+        Element questionEl = CURRENT_PLAINDB_DOC.createElement("question");
+        Element answerEl = CURRENT_PLAINDB_DOC.createElement("answer");
+        Element passwordEl = CURRENT_PLAINDB_DOC.createElement("password");
+        Element otherEl = CURRENT_PLAINDB_DOC.createElement("other");
+        
+        //Text accountTxt = CURRENT_PLAINDB_DOC.createTextNode(account);
+        Text nameTxt = CURRENT_PLAINDB_DOC.createTextNode(name);
+        Text emailTxt = CURRENT_PLAINDB_DOC.createTextNode(email);
+        Text nickTxt = CURRENT_PLAINDB_DOC.createTextNode(nick);
+        Text questionTxt = CURRENT_PLAINDB_DOC.createTextNode(question);
+        Text answerTxt = CURRENT_PLAINDB_DOC.createTextNode(answer);
+        Text passwordTxt = CURRENT_PLAINDB_DOC.createTextNode(password);
+        Text otherTxt = CURRENT_PLAINDB_DOC.createTextNode(other);
+        
+        accountEl = CURRENT_PLAINDB_DOC.createElement("account");
+        nodes.item(0).appendChild(accountEl);
+        accountEl.appendChild(nameEl);
+        accountEl.appendChild(emailEl);
+        accountEl.appendChild(nickEl);
+        accountEl.appendChild(questionEl);
+        accountEl.appendChild(answerEl);
+        accountEl.appendChild(passwordEl);
+        accountEl.appendChild(otherEl);
+        
+        accountEl.setAttribute("id", account); //TODO: Evaluate if is correct as id
+        nameEl.appendChild(nameTxt);
+        emailEl.appendChild(emailTxt);
+        nickEl.appendChild(nickTxt);
+        questionEl.appendChild(questionTxt);
+        answerEl.appendChild(answerTxt);
+        passwordEl.appendChild(passwordTxt);
+        otherEl.appendChild(otherTxt);
+        
+        
 
         saveDocChanges(CURRENT_PLAINDB_DOC, CURRENT_PLAINDB_NAME);
         return 0;
     }
     
-    public int removeTerm (String word){
-        NodeList nodes = getNodeListFromDoc(CURRENT_PLAINDB_DOC, "/terms/term[word[text() = '"+word+"']]");
+    public int removeAccount (String account){
+        NodeList nodes = getNodeListFromDoc(CURRENT_PLAINDB_DOC, "/accounts/account[@id='"+account+"']");
         if (nodes != null) {
             nodes.item(0).getParentNode().removeChild(nodes.item(0));
             saveDocChanges(CURRENT_PLAINDB_DOC, CURRENT_PLAINDB_NAME);
-            System.out.println("DEBUGGING: removeTerm, term removed");
+            System.out.println("DEBUGGING: removeAccount, account removed");
             return 0;
         }
         else {
@@ -133,23 +161,32 @@ public class SingletonRequests {
         }
     }
     
-    public int modifyTerm (String word, String transl){
-        NodeList nodes = getNodeListFromDoc(CURRENT_PLAINDB_DOC, "/terms/term/word[text() = '"+word+"']/../transl");
+    public int editAccount (String account, String name, String email, String nick, String question, String answer, String password, String other){
+        if (editItemInAccount(account, "name", name) == -1) return -1;
+        if (editItemInAccount(account, "email", email) == -1) return -1;
+        if (editItemInAccount(account, "nick", nick) == -1) return -1;
+        if (editItemInAccount(account, "question", question) == -1) return -1;
+        if (editItemInAccount(account, "answer", answer) == -1) return -1;
+        if (editItemInAccount(account, "password", password) == -1) return -1;
+        if (editItemInAccount(account, "other", other) == -1) return -1;
+        return 0;
+    }
+    
+    
+    private int editItemInAccount (String account, String type, String newfield){
+        NodeList nodes = getNodeListFromDoc(CURRENT_PLAINDB_DOC, "/accounts/account[@id='"+account+"']/../"+type+"/");
         if (nodes != null) {
-            Node newTransl = CURRENT_PLAINDB_DOC.createTextNode(transl);
+            Node newItem = CURRENT_PLAINDB_DOC.createTextNode(newfield);
             nodes.item(0).removeChild(nodes.item(0).getFirstChild());
-            nodes.item(0).appendChild(newTransl);
+            nodes.item(0).appendChild(newItem);
             saveDocChanges(CURRENT_PLAINDB_DOC, CURRENT_PLAINDB_NAME);
-            System.out.println("DEBUGGING: modifyTerm, term modified");
+            System.out.println("DEBUGGING: editItemInAccount, item modified");
             return 0;
         }
         else {
             return -1;
         }
     }
-    
-    
-    
     
     
     
