@@ -80,17 +80,20 @@ public class SingletonRequests {
         return words;
     }*/
     
-    public ArrayList<String> getAccountsMatch (String substr){
+    public ArrayList<Account> getAccountsMatch (String substr){
         NodeList nodes = getNodeListFromDoc(CURRENT_PLAINDB_DOC, "/accounts/account[@id[contains('"+substr+"', '%s')]]");
         if (nodes == null){
             return null;
         }
-        ArrayList <String> words;
+        //TODO Return a list of accounts
+        
+        /*ArrayList <String> words;
         words = new ArrayList(nodes.getLength());
         for (int i=0;i<nodes.getLength();i++){
             words.add(nodes.item(i).getTextContent());
-        }
-        return words;
+        }*/
+        
+        return null;
     }
     
     /* Create new term in current userDB, on error return -1 */
