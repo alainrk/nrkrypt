@@ -39,7 +39,7 @@ public class SingletonRequests {
     }
 
     public void loadUser (String user) {
-        CURRENT_PLAINDB_NAME = user+".xml";
+        CURRENT_PLAINDB_NAME = Configurations.pathOfMainFolder+user+".xml";
         DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
         try {
             DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
@@ -76,11 +76,13 @@ public class SingletonRequests {
         return words;
     }*/
     
-    public ArrayList<Account> getAccountsMatch (String substr){
-        NodeList nodes = getNodeListFromDoc(CURRENT_PLAINDB_DOC, "/accounts/account[@id[contains('"+substr+"', '%s')]]");
+    public ArrayList<Account> getAccountsMatch (String substr){  //"/accounts/account[@id[contains('"+substr+"', '%s')]]"
+        NodeList nodes = getNodeListFromDoc(CURRENT_PLAINDB_DOC, "/accounts/account[contains(@id,'"+substr+"')]");
         if (nodes == null){
             return null;
         }
+        
+        System.out.println("DEBUG\t Accounts Matching '"+substr+"': "+nodes.getLength());
         //TODO Return a list of accounts
         
         /*ArrayList <String> words;

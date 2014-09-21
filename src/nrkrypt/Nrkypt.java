@@ -69,9 +69,15 @@ public class Nrkypt {
         
         
         SingletonRequests req = new SingletonRequests();
-        req.createUser("userone");
-        //req.loadUser("userone");
-        //req.createAccount("google", "pino", "asd", "qwe", "rty", "fgh", "vbn", "hjk");
+        //req.createUser("userone");
+        req.loadUser("userone");
+        //req.createAccount("AAABBBAAA", "pino", "asd", "qwe", "rty", "fgh", "vbn", "hjk");
+        //req.createAccount("BBBBBBBB", "pino", "asd", "qwe", "rty", "fgh", "vbn", "hjk");
+        //req.createAccount("CCCCCCCC", "pino", "asd", "qwe", "rty", "fgh", "vbn", "hjk");
+        //req.removeAccount("google");
+        //req.removeAccount("AAAAAAAA");
+        req.getAccountsMatch("BB");
+        
         
         try {
             FileInputStream fis = new FileInputStream(new File("plain"));
