@@ -83,13 +83,14 @@ public class SingletonRequests {
         }
         
         System.out.println("DEBUG\t Accounts Matching '"+substr+"': "+nodes.getLength());
-        //TODO Return a list of accounts
         
-        /*ArrayList <String> words;
-        words = new ArrayList(nodes.getLength());
+        //TODO Return a list of accounts
+        ArrayList<Account> accountsList = new ArrayList<Account>();
         for (int i=0;i<nodes.getLength();i++){
-            words.add(nodes.item(i).getTextContent());
-        }*/
+            Account account = new Account();
+            //account.setAccount(nodes.item(i).);
+            //accountsList.add(nodes.item(i).getTextContent());
+        }
         
         return null;
     }
@@ -175,7 +176,7 @@ public class SingletonRequests {
     
     
     private int editItemInAccount (String account, String type, String newfield){
-        NodeList nodes = getNodeListFromDoc(CURRENT_PLAINDB_DOC, "/accounts/account[@id='"+account+"']/../"+type+"/");
+        NodeList nodes = getNodeListFromDoc(CURRENT_PLAINDB_DOC, "/accounts/account[@id='"+account+"']/"+type);
         if (nodes != null) {
             Node newItem = CURRENT_PLAINDB_DOC.createTextNode(newfield);
             nodes.item(0).removeChild(nodes.item(0).getFirstChild());

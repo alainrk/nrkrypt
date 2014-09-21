@@ -76,7 +76,8 @@ public class Nrkypt {
         //req.createAccount("CCCCCCCC", "pino", "asd", "qwe", "rty", "fgh", "vbn", "hjk");
         //req.removeAccount("google");
         //req.removeAccount("AAAAAAAA");
-        req.getAccountsMatch("BB");
+        //req.getAccountsMatch("BB");
+        req.editAccount("AAABBBAAA", "fffffffff", "vvvvvvv", "rrrrrrrrrr", "tttttttt", "ggggg", "cccccccc", "kkkkkkkk");
         
         
         try {
