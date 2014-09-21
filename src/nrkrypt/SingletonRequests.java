@@ -4,6 +4,9 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
 import javax.xml.parsers.*;
 import javax.xml.transform.*;
 import javax.xml.transform.dom.*;
@@ -76,20 +79,29 @@ public class SingletonRequests {
         return words;
     }*/
     
-    public ArrayList<Account> getAccountsMatch (String substr){  //"/accounts/account[@id[contains('"+substr+"', '%s')]]"
+    public ArrayList<Account> getAccountsMatch (String substr) throws JAXBException{  //"/accounts/account[@id[contains('"+substr+"', '%s')]]"
         NodeList nodes = getNodeListFromDoc(CURRENT_PLAINDB_DOC, "/accounts/account[contains(@id,'"+substr+"')]");
         if (nodes == null){
             return null;
         }
         
         System.out.println("DEBUG\t Accounts Matching '"+substr+"': "+nodes.getLength());
-        
+        //System.out.println("DEBUG\t " + nodes.item(0).getLastChild().getTextContent());
         //TODO Return a list of accounts
         ArrayList<Account> accountsList = new ArrayList<Account>();
-        for (int i=0;i<nodes.getLength();i++){
-            Account account = new Account();
+        for (int i=0;i<nodes.getLength();i++){    
+            JAXBContext jaxbContext = JAXBContext.newInstance(Account.class);
+            Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+            Account account = (Account) jaxbUnmarshaller.unmarshal(nodes.item(i));
+            //Account account = (Account) jaxbUnmarshaller.unmarshal(nodes.item(i));
+            
             //account.setAccount(nodes.item(i).);
-            //accountsList.add(nodes.item(i).getTextContent());
+            accountsList.add(account);
+        }
+        
+        for (int j=0;j<accountsList.size();j++){    
+            System.out.println("-------------------------");
+            System.out.println(accountsList.get(j).getAccount() + "/" + accountsList.get(j).getEmail()+ "/" + accountsList.get(j).getPassword()+ "/" );
         }
         
         return null;

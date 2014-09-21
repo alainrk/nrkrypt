@@ -21,6 +21,7 @@ import java.security.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.crypto.spec.SecretKeySpec;
+import javax.xml.bind.JAXBException;
 import org.bouncycastle.crypto.DataLengthException;
 import sun.applet.Main;
 
@@ -28,12 +29,12 @@ import sun.applet.Main;
  *
  * @author narko
  */
-public class Nrkypt {
+public class Nrkrypt {
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws NoSuchAlgorithmException, NoSuchPaddingException, UnsupportedEncodingException, InvalidKeyException, FileNotFoundException, IOException, IllegalBlockSizeException, BadPaddingException, ShortBufferException {
+    public static void main(String[] args) throws NoSuchAlgorithmException, NoSuchPaddingException, UnsupportedEncodingException, InvalidKeyException, FileNotFoundException, IOException, IllegalBlockSizeException, BadPaddingException, ShortBufferException, JAXBException {
 
         Configurations config = new Configurations();
         File mainFolder = new File(config.getPathOfMainFolder());
@@ -77,7 +78,8 @@ public class Nrkypt {
         //req.removeAccount("google");
         //req.removeAccount("AAAAAAAA");
         //req.getAccountsMatch("BB");
-        req.editAccount("AAABBBAAA", "fffffffff", "vvvvvvv", "rrrrrrrrrr", "tttttttt", "ggggg", "cccccccc", "kkkkkkkk");
+        //req.editAccount("AAABBBAAA", "fffffffff", "vvvvvvv", "rrrrrrrrrr", "tttttttt", "ggggg", "cccccccc", "kkkkkkkk");
+        req.getAccountsMatch("BB");
         
         
         try {
