@@ -224,9 +224,9 @@ public class SingletonRequests {
             /* ADDING ITEM XMLMAP: Take the root element "users" (first item, index 0) with xpath */
             addUserItemMap(user);
             /* If this is the first user set as CURRENT_PLAINDB_DOC */
-            NodeList countUsers = getNodeListFromDoc(XML_MAP_DOC, "/users/user");
-            if (countUsers.getLength() == 1)
-                loadUser(user);
+            //NodeList countUsers = getNodeListFromDoc(XML_MAP_DOC, "/users/user");
+            //if (countUsers.getLength() == 1)
+            //    loadUser(user);
             /* SUCCESS */
             return 0;
         } else {
@@ -257,7 +257,7 @@ public class SingletonRequests {
     
     /****************************************** PRIVATE UTILS ******************************************/
     /* Creates the initial XML File with associations user-userDB */
-    public int createMappingUserFile (String xmlMapFilename){
+    public int createMappingUserFile (String xmlMapPath){
         try {
             DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
@@ -267,7 +267,7 @@ public class SingletonRequests {
             Element rootElement = doc.createElement("users");
             doc.appendChild(rootElement);
 
-            saveDocChanges(doc, xmlMapFilename);
+            saveDocChanges(doc, xmlMapPath);
             System.out.println("File saved!");
  
         } catch (ParserConfigurationException pce) {
@@ -279,7 +279,7 @@ public class SingletonRequests {
     
     /* Check if user is an item in the XML Map file */
     private boolean existUser (String user){
-        NodeList nodes = getNodeListFromDoc(XML_MAP_DOC, "/users/user/name/[text() = '"+user+"']");
+        NodeList nodes = getNodeListFromDoc(XML_MAP_DOC, "/users/user/name[text() = '"+user+"']");
         return (nodes != null)? true:false;
     }
     
@@ -296,7 +296,7 @@ public class SingletonRequests {
         Element rootElement = doc.createElement("accounts");
         doc.appendChild(rootElement);
         
-        saveDocChanges(doc, user+".xml");
+        saveDocChanges(doc, Configurations.pathOfMainFolder+user+".xml");
 
         System.out.println("New user "+user+".xml saved!");
     }
@@ -377,14 +377,14 @@ public class SingletonRequests {
         }
     }
     
-    private void saveDocChanges(Document doc, String nameFile){
+    private void saveDocChanges(Document doc, String pathFile){
         try{
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
             DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(new File(nameFile));
+            StreamResult result = new StreamResult(new File(pathFile));
             transformer.transform(source, result);
-            System.out.println("DEBUGGING: saveDocChanges, document "+nameFile+" saved!"); 
+            System.out.println("DEBUGGING: saveDocChanges, document "+pathFile+" saved!"); 
        } catch (TransformerException ex) {
             Logger.getLogger(SingletonRequests.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -65,6 +65,14 @@ public class Nrkypt {
                 
         }
         
+        //////////////////////////////// TEST /////////////////////////////////
+        
+        
+        SingletonRequests req = new SingletonRequests();
+        req.createUser("userone");
+        //req.loadUser("userone");
+        //req.createAccount("google", "pino", "asd", "qwe", "rty", "fgh", "vbn", "hjk");
+        
         try {
             FileInputStream fis = new FileInputStream(new File("plain"));
             FileOutputStream fos = new FileOutputStream(new File("ciph"));
@@ -97,6 +105,12 @@ public class Nrkypt {
  
         System.out.println("Test done !");
         return;
+    
+   }
+    
+}
+
+
         
         
         /*
@@ -203,7 +217,3 @@ public class Nrkypt {
       }
       return buf.toString();
    */
-        
-   }
-    
-}
