@@ -4,11 +4,18 @@
  */
 package nrkrypt;
 
+import javax.xml.bind.annotation.*;
+
 /**
  *
  * @author narko
  */
+
+@XmlRootElement(name="account")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Account {
+    
+    @XmlAttribute(name="id")
     private String account;
     private String name;
     private String email;
@@ -31,7 +38,9 @@ public class Account {
         this.password = password;
         this.other = other;
     }
+    
 
+    //@XmlAttribute(name="id")
     public String getAccount() {
         return account;
     }
@@ -43,7 +52,7 @@ public class Account {
     public String getName() {
         return name;
     }
-
+//    @XmlElement
     public void setName(String name) {
         this.name = name;
     }
@@ -51,7 +60,7 @@ public class Account {
     public String getEmail() {
         return email;
     }
-
+//    @XmlElement
     public void setEmail(String email) {
         this.email = email;
     }
@@ -59,7 +68,7 @@ public class Account {
     public String getNick() {
         return nick;
     }
-
+//    @XmlElement
     public void setNick(String nick) {
         this.nick = nick;
     }
@@ -67,7 +76,7 @@ public class Account {
     public String getQuestion() {
         return question;
     }
-
+//    @XmlElement
     public void setQuestion(String question) {
         this.question = question;
     }
@@ -75,7 +84,7 @@ public class Account {
     public String getAnswer() {
         return answer;
     }
-
+//    @XmlElement
     public void setAnswer(String answer) {
         this.answer = answer;
     }
@@ -83,7 +92,7 @@ public class Account {
     public String getPassword() {
         return password;
     }
-
+//    @XmlElement
     public void setPassword(String password) {
         this.password = password;
     }
@@ -91,7 +100,7 @@ public class Account {
     public String getOther() {
         return other;
     }
-
+//    @XmlElement
     public void setOther(String other) {
         this.other = other;
     }

@@ -23,7 +23,7 @@ import org.xml.sax.SAXException;
 public class SingletonRequests {
 
     private Document XML_MAP_DOC = null;
-    private String CURRENT_PLAINDB_NAME = "";
+    private String CURRENT_PLAINDB_PATH = "";
     private Document CURRENT_PLAINDB_DOC = null;
     private String CURRENT_USER_NAME = "";
 
@@ -42,11 +42,11 @@ public class SingletonRequests {
     }
 
     public void loadUser (String user) {
-        CURRENT_PLAINDB_NAME = Configurations.pathOfMainFolder+user+".xml";
+        CURRENT_PLAINDB_PATH = Configurations.pathOfMainFolder+user+".xml";
         DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
         try {
             DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-            CURRENT_PLAINDB_DOC = docBuilder.parse(CURRENT_PLAINDB_NAME);
+            CURRENT_PLAINDB_DOC = docBuilder.parse(CURRENT_PLAINDB_PATH);
             System.out.println("DEBUGGING: loadUser, user loaded: "+user);
         } catch (ParserConfigurationException | SAXException | IOException ex) {
             Logger.getLogger(SingletonRequests.class.getName()).log(Level.SEVERE, null, ex);
@@ -86,26 +86,25 @@ public class SingletonRequests {
         }
         
         System.out.println("DEBUG\t Accounts Matching '"+substr+"': "+nodes.getLength());
-        //System.out.println("DEBUG\t " + nodes.item(0).getLastChild().getTextContent());
-        //TODO Return a list of accounts
+
         ArrayList<Account> accountsList = new ArrayList<Account>();
-        for (int i=0;i<nodes.getLength();i++){    
-            JAXBContext jaxbContext = JAXBContext.newInstance(Account.class);
+
+        for (int i=0;i<nodes.getLength();i++){
+             JAXBContext jaxbContext = JAXBContext.newInstance(Account.class);
             Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
             Account account = (Account) jaxbUnmarshaller.unmarshal(nodes.item(i));
-            //Account account = (Account) jaxbUnmarshaller.unmarshal(nodes.item(i));
-            
-            //account.setAccount(nodes.item(i).);
+            System.out.println("DEBUG\t Extract account :"+account.getAccount());
             accountsList.add(account);
         }
         
-        for (int j=0;j<accountsList.size();j++){    
+        /*DEBUG for (int j=0;j<accountsList.size();j++){    
             System.out.println("-------------------------");
-            System.out.println(accountsList.get(j).getAccount() + "/" + accountsList.get(j).getEmail()+ "/" + accountsList.get(j).getPassword()+ "/" );
-        }
+            System.out.println(accountsList.get(j).getAccount()+ "/" + accountsList.get(j).getEmail()+ "/" + accountsList.get(j).getPassword()+ "/" );
+        }*/
         
-        return null;
+        return accountsList;
     }
+    
     
     /* Create new term in current userDB, on error return -1 */
     public int createAccount (String account, String name, String email, String nick, String question, String answer, String password, String other){
@@ -158,7 +157,7 @@ public class SingletonRequests {
         
         
 
-        saveDocChanges(CURRENT_PLAINDB_DOC, CURRENT_PLAINDB_NAME);
+        saveDocChanges(CURRENT_PLAINDB_DOC, CURRENT_PLAINDB_PATH);
         return 0;
     }
     
@@ -166,7 +165,7 @@ public class SingletonRequests {
         NodeList nodes = getNodeListFromDoc(CURRENT_PLAINDB_DOC, "/accounts/account[@id='"+account+"']");
         if (nodes != null) {
             nodes.item(0).getParentNode().removeChild(nodes.item(0));
-            saveDocChanges(CURRENT_PLAINDB_DOC, CURRENT_PLAINDB_NAME);
+            saveDocChanges(CURRENT_PLAINDB_DOC, CURRENT_PLAINDB_PATH);
             System.out.println("DEBUGGING: removeAccount, account removed");
             return 0;
         }
@@ -193,7 +192,7 @@ public class SingletonRequests {
             Node newItem = CURRENT_PLAINDB_DOC.createTextNode(newfield);
             nodes.item(0).removeChild(nodes.item(0).getFirstChild());
             nodes.item(0).appendChild(newItem);
-            saveDocChanges(CURRENT_PLAINDB_DOC, CURRENT_PLAINDB_NAME);
+            saveDocChanges(CURRENT_PLAINDB_DOC, CURRENT_PLAINDB_PATH);
             System.out.println("DEBUGGING: editItemInAccount, item modified");
             return 0;
         }
@@ -257,8 +256,8 @@ public class SingletonRequests {
     public int removeUser (String user){
         if (existUser(user)) {
             // TODO: Set the next user in XML, and not only set null value
-            if (user.equals(CURRENT_PLAINDB_NAME)) {
-                CURRENT_PLAINDB_NAME = "";
+            if (user.equals(CURRENT_PLAINDB_PATH)) {
+                CURRENT_PLAINDB_PATH = "";
             }
             removeUserDB(user);
             /* ADDING ITEM XMLMAP: Take the root element "users" (first item, index 0) with xpath */
@@ -342,7 +341,7 @@ public class SingletonRequests {
     
     /* Remove the XML file "user".xml */
     private void removeUserDB(String user){
-        File f = new File(user+".xml");
+        File f = new File(Configurations.fileNameCurrentPlainPasswdDB);
         try{
             f.delete();
         } catch(Error err){

@@ -70,16 +70,17 @@ public class Nrkrypt {
         
         
         SingletonRequests req = new SingletonRequests();
-        //req.createUser("userone");
+//        req.createUser("userone");
         req.loadUser("userone");
-        //req.createAccount("AAABBBAAA", "pino", "asd", "qwe", "rty", "fgh", "vbn", "hjk");
-        //req.createAccount("BBBBBBBB", "pino", "asd", "qwe", "rty", "fgh", "vbn", "hjk");
-        //req.createAccount("CCCCCCCC", "pino", "asd", "qwe", "rty", "fgh", "vbn", "hjk");
+        //req.removeUser("userone");
+//        req.createAccount("AAABBBAAA", "pino", "asd", "qwe", "rty", "fgh", "vbn", "hjk");
+//        req.createAccount("BBBBBBBB", "pino", "asd", "qwe", "rty", "fgh", "vbn", "hjk");
+//        req.createAccount("CCAACCCC", "pino", "asd", "qwe", "rty", "fgh", "vbn", "hjk");
         //req.removeAccount("google");
         //req.removeAccount("AAAAAAAA");
         //req.getAccountsMatch("BB");
-        //req.editAccount("AAABBBAAA", "fffffffff", "vvvvvvv", "rrrrrrrrrr", "tttttttt", "ggggg", "cccccccc", "kkkkkkkk");
-        req.getAccountsMatch("BB");
+//        req.editAccount("AAABBBAAA", "fffffffff", "vvvvvvv", "rrrrrrrrrr", "tttttttt", "ggggg", "cccccccc", "kkkkkkkk");
+        req.getAccountsMatch("A");
         
         
         try {
