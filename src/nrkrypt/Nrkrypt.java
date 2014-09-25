@@ -25,6 +25,8 @@ import javax.xml.bind.JAXBException;
 import org.bouncycastle.crypto.DataLengthException;
 import sun.applet.Main;
 
+import nrkryptGUI.GuiController;
+
 /**
  *
  * @author narko
@@ -82,6 +84,10 @@ public class Nrkrypt {
 //        req.editAccount("AAABBBAAA", "fffffffff", "vvvvvvv", "rrrrrrrrrr", "tttttttt", "ggggg", "cccccccc", "kkkkkkkk");
         req.getAccountsMatch("A");
         
+        
+        // START GUI
+        guiController = new GuiController();
+        guiController.start();
         
         try {
             FileInputStream fis = new FileInputStream(new File("plain"));

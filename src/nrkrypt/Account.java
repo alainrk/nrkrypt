@@ -104,6 +104,4 @@ public class Account {
     public void setOther(String other) {
         this.other = other;
     }
-
-        
 }

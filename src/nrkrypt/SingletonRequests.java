@@ -52,33 +52,7 @@ public class SingletonRequests {
             Logger.getLogger(SingletonRequests.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    /*public String getTransl (String word){
-        NodeList nodes = getNodeListFromDoc(CURRENT_PLAINDB_DOC, "/terms/term/word[text() = '"+word+"']/../transl");
-        return (nodes != null) ? nodes.item(0).getTextContent() : null;
-    }*/
-    
-    /*public ArrayList<String> getAllWords (){
-        NodeList nodes = getNodeListFromDoc(CURRENT_PLAINDB_DOC, "/terms/term/word");
-        if (nodes == null){
-            return null;
-        }
-        ArrayList <String> words;
-        words = new ArrayList(nodes.getLength());
-        for (int i=0;i<nodes.getLength();i++){
-            words.add(nodes.item(i).getTextContent());
-        }
-        return words;
-    }*/
-    
+     
     public ArrayList<Account> getAccountsMatch (String substr) throws JAXBException{  //"/accounts/account[@id[contains('"+substr+"', '%s')]]"
         NodeList nodes = getNodeListFromDoc(CURRENT_PLAINDB_DOC, "/accounts/account[contains(@id,'"+substr+"')]");
         if (nodes == null){
@@ -104,7 +78,6 @@ public class SingletonRequests {
         
         return accountsList;
     }
-    
     
     /* Create new term in current userDB, on error return -1 */
     public int createAccount (String account, String name, String email, String nick, String question, String answer, String password, String other){
@@ -185,7 +158,6 @@ public class SingletonRequests {
         return 0;
     }
     
-    
     private int editItemInAccount (String account, String type, String newfield){
         NodeList nodes = getNodeListFromDoc(CURRENT_PLAINDB_DOC, "/accounts/account[@id='"+account+"']/"+type);
         if (nodes != null) {
@@ -200,20 +172,6 @@ public class SingletonRequests {
             return -1;
         }
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     public ArrayList<String> getAllUsers (){
         NodeList nodes = getNodeListFromDoc(XML_MAP_DOC, "/users/user/name");
