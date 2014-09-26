@@ -86,10 +86,11 @@ public class Nrkrypt {
         
         
         // START GUI
-        guiController = new GuiController();
+        GuiController guiController = new GuiController();
         guiController.start();
         
-        try {
+        /* Cryptography
+         * try {
             FileInputStream fis = new FileInputStream(new File("plain"));
             FileOutputStream fos = new FileOutputStream(new File("ciph"));
  
@@ -117,7 +118,7 @@ public class Nrkrypt {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }*/
  
         System.out.println("Test done !");
         return;
