@@ -87,6 +87,7 @@ public class Nrkrypt {
         
         // START GUI
         GuiController guiController = new GuiController();
+        System.out.println("Start GUI");
         guiController.start();
         
         /* Cryptography
