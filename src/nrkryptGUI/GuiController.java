@@ -27,8 +27,14 @@ public class GuiController {
         } catch (Exception e){System.err.println(e.toString());}
     }
     
-    private void createGui() throws Exception {
+    private void createGui() {
         /* Create mainFrame, and pass this object as Gui Controller */
-        mainFrame = new MainFrame();
+        try {
+             mainFrame = new MainFrame();
+             mainFrame.setVisible(true);
+        } catch (Exception e) {
+            System.err.println("DEBUG\tcreateGUI: "+e);
+        }
+       
     }
 }
