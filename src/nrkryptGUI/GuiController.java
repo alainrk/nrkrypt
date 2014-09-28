@@ -8,6 +8,7 @@ package nrkryptGUI;
 import java.util.ArrayList;
 import javax.swing.*;
 import nrkrypt.Nrkrypt;
+import nrkrypt.Utils;
 
 /**
  *
@@ -31,7 +32,10 @@ public class GuiController {
         /* Create mainFrame, and pass this object as Gui Controller */
         try {
              mainFrame = new MainFrame();
+             //mainFrame.setDefaultCloseOperation();
+             mainFrame.setLocationRelativeTo(null);
              mainFrame.setVisible(true);
+             
         } catch (Exception e) {
             System.err.println("DEBUG\tcreateGUI: "+e);
         }
