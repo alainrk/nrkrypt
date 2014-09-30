@@ -73,7 +73,7 @@ public class Nrkrypt {
         
         SingletonRequests req = new SingletonRequests();
 //        req.createUser("userone");
-        req.loadUser("userone");
+        //req.loadUser("userone");
         //req.removeUser("userone");
 //        req.createAccount("AAABBBAAA", "pino", "asd", "qwe", "rty", "fgh", "vbn", "hjk");
 //        req.createAccount("BBBBBBBB", "pino", "asd", "qwe", "rty", "fgh", "vbn", "hjk");

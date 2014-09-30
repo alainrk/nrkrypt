@@ -1,5 +1,7 @@
 package nrkryptGUI;
 
+import nrkrypt.SingletonRequests;
+
 /**
  *
  * @author narko
@@ -33,7 +35,11 @@ public class MainFrame extends javax.swing.JFrame {
         setTitle("NrKrypt");
         setBackground(new java.awt.Color(195, 208, 205));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        System.out.println("ZERO");
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"No users"}));
+        System.out.println("FIRST");
+        initUserComboBox(); //MY
+        System.out.println("SECOND");
         jComboBox1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -76,9 +82,8 @@ public class MainFrame extends javax.swing.JFrame {
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 94, Short.MAX_VALUE)
                         .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jPasswordField1, javax.swing.GroupLayout.DEFAULT_SIZE, 392, Short.MAX_VALUE)
-                        .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jPasswordField1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 392, Short.MAX_VALUE)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(152, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -161,4 +166,16 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPasswordField jPasswordField1;
     // End of variables declaration//GEN-END:variables
+
+    private void initUserComboBox() {
+        SingletonRequests s = new SingletonRequests();
+        String[] users = s.getAllUsersArray();
+        System.out.println("aaaaaaaaa :" + users.length);
+        if (users.length == 0){
+            System.err.println("TEST");
+            jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"No users"}));
+        }
+        else
+            jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(users));
+    }
 }

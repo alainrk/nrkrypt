@@ -91,6 +91,10 @@ public class SingletonRequests {
         if (nodes2 != null) {
             return -1;
         }
+        
+        // TODO: Implement with marshall jaxb
+        
+        
         Element accountEl = CURRENT_PLAINDB_DOC.createElement("account");
         Element nameEl = CURRENT_PLAINDB_DOC.createElement("name");
         Element emailEl = CURRENT_PLAINDB_DOC.createElement("email");
@@ -172,7 +176,18 @@ public class SingletonRequests {
             return -1;
         }
     }
-    
+    public String[] getAllUsersArray (){
+        NodeList nodes = getNodeListFromDoc(XML_MAP_DOC, "/users/user/name");
+        if (nodes == null){
+            return null;
+        }
+        String[] users = new String[nodes.getLength()];
+
+        for (int i=0;i<nodes.getLength();i++){
+            users[i] = nodes.item(i).getTextContent();
+        }
+        return users;    
+    }
     public ArrayList<String> getAllUsers (){
         NodeList nodes = getNodeListFromDoc(XML_MAP_DOC, "/users/user/name");
         if (nodes == null){
