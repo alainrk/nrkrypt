@@ -82,7 +82,7 @@ public class Nrkrypt {
         //req.removeAccount("AAAAAAAA");
         //req.getAccountsMatch("BB");
 //        req.editAccount("AAABBBAAA", "fffffffff", "vvvvvvv", "rrrrrrrrrr", "tttttttt", "ggggg", "cccccccc", "kkkkkkkk");
-        req.getAccountsMatch("A");
+        //req.getAccountsMatch("A");
         
         
         // START GUI

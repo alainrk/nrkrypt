@@ -179,7 +179,7 @@ public class SingletonRequests {
     public String[] getAllUsersArray (){
         NodeList nodes = getNodeListFromDoc(XML_MAP_DOC, "/users/user/name");
         if (nodes == null){
-            return null;
+            return new String[]{};
         }
         String[] users = new String[nodes.getLength()];
 
