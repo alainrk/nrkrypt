@@ -1,5 +1,8 @@
 package nrkrypt;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -43,7 +46,7 @@ public class Encryption {
     public Encryption(String pass){
         Random rand;
         chechAndGetPasswd(pass);
-        key = "SECRET_1SECRET_2".getBytes();
+        key = pass.getBytes();
         //get the key and the IV
         //key = pass.getBytes();
         IV = new byte[blockSize];
@@ -171,6 +174,15 @@ public class Encryption {
             return 0;
         }
         return -1;
+    }
+
+    public void cryptAndDelete(String user) throws IOException, NoSuchAlgorithmException, NoSuchProviderException, NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException, ShortBufferException, IllegalBlockSizeException, BadPaddingException {
+        Configurations c = new Configurations();
+        FileInputStream fis = new FileInputStream(new File(c.getPathOfMainFolder()+user+".xml"));
+        FileOutputStream fos = new FileOutputStream(new File(c.getPathOfMainFolder()+user+".crypt"));
+        InitCiphers();
+        //encryption
+        CBCEncrypt(fis, fos);
     }
     
 }
