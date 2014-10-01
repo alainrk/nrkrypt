@@ -12,8 +12,9 @@ public class MainFrame extends javax.swing.JFrame {
      * Creates new form MainFrame
      */
     public MainFrame() {
-        //initComponents();
-        init();
+        initComponents();
+        initUserComboBox();
+
     }
 
     private void init(){
@@ -132,7 +133,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         jLabel1.setText("Username:");
 
-        jPasswordField1.setText("jPasswordField1");
+        jPasswordField1.setToolTipText("");
 
         jLabel2.setText("Master Password:");
 
