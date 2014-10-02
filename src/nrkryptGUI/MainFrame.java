@@ -13,8 +13,7 @@ public class MainFrame extends javax.swing.JFrame {
      */
     public MainFrame() {
         initComponents();
-        initUserComboBox();
-
+        loadUserComboBox();
     }
 
     private void init(){
@@ -30,7 +29,7 @@ public class MainFrame extends javax.swing.JFrame {
         setBackground(new java.awt.Color(195, 208, 205));
 
         //////////////////////////////////////////////////////////////////////////////////////////////////
-        initUserComboBox(); 
+        loadUserComboBox(); 
         //////////////////////////////////////////////////////////////////////////////////////////////////
         
         jComboBox1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -119,11 +118,7 @@ public class MainFrame extends javax.swing.JFrame {
         setTitle("NrKrypt");
         setBackground(new java.awt.Color(195, 208, 205));
 
-        System.out.println("ZERO");
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"No users"}));
-        System.out.println("FIRST");
-        initUserComboBox(); //MY
-        System.out.println("SECOND");
         jComboBox1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -201,11 +196,12 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void jButton1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseReleased
         NewUserFrame newuserframe = new NewUserFrame();
-        newuserframe.setAlwaysOnTop(true);
+        newuserframe.setAutoRequestFocus(rootPaneCheckingEnabled);
         newuserframe.setAutoRequestFocus(true);
         newuserframe.setLocationRelativeTo(null);
         newuserframe.setVisible(true);
         newuserframe.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        loadUserComboBox();
     }//GEN-LAST:event_jButton1MouseReleased
 
     /**
@@ -251,7 +247,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JPasswordField jPasswordField1;
     // End of variables declaration//GEN-END:variables
 
-    private void initUserComboBox() {
+    private void loadUserComboBox() {
         SingletonRequests s = new SingletonRequests();
         String[] users = s.getAllUsersArray();
 
@@ -259,7 +255,9 @@ public class MainFrame extends javax.swing.JFrame {
             System.err.println("TEST");
             jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"No users"}));
         }
-        else
+        else{
+            System.out.println("LOADUSERCOMBOBOX");
             jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(users));
+        }
     }
 }

@@ -176,13 +176,14 @@ public class Encryption {
         return null;
     }
 
-    public void cryptAndDelete(String user) throws IOException, NoSuchAlgorithmException, NoSuchProviderException, NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException, ShortBufferException, IllegalBlockSizeException, BadPaddingException {
+    public int cryptAndDelete(String user) throws IOException, NoSuchAlgorithmException, NoSuchProviderException, NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException, ShortBufferException, IllegalBlockSizeException, BadPaddingException {
         Configurations c = new Configurations();
         FileInputStream fis = new FileInputStream(new File(c.getPathOfMainFolder()+user+".xml"));
         FileOutputStream fos = new FileOutputStream(new File(c.getPathOfMainFolder()+user+".crypt"));
         InitCiphers();
         //encryption
         CBCEncrypt(fis, fos);
+        return 0;
     }
     
 }

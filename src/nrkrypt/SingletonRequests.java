@@ -28,7 +28,7 @@ public class SingletonRequests {
     private String CURRENT_USER_NAME = "";
 
     public SingletonRequests() {
-        createMappingUserFile (Configurations.pathOfMainFolder+Configurations.fileNameUsersXML);
+        //createMappingUserFile (Configurations.pathOfMainFolder+Configurations.fileNameUsersXML);
 
         // Create "XML_MAP_DOC" DOCUMENT for DOM in XML_MAP_FILENAME access
         // FIXME: If the file was not already filled with XML does not matter
