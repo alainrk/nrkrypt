@@ -45,8 +45,8 @@ public class Encryption {
 
     public Encryption(String pass){
         Random rand;
-        chechAndGetPasswd(pass);
-        key = pass.getBytes();
+        String newpass = checkAndGetPasswd(pass);
+        key = newpass.getBytes();
         //get the key and the IV
         //key = pass.getBytes();
         IV = new byte[blockSize];
@@ -73,7 +73,7 @@ public class Encryption {
        //3. create the IV
        AlgorithmParameterSpec IVspec = new IvParameterSpec(IV);
        IvParameterSpec bla = new IvParameterSpec(IV);
-        System.out.println(Arrays.toString(bla.getIV()));
+       System.out.println(Arrays.toString(bla.getIV()));
        //4. init the cipher
        encryptCipher.init(Cipher.ENCRYPT_MODE, keyValue, IVspec);
 
@@ -151,15 +151,15 @@ public class Encryption {
        fis.close();
     }
 
-    private int chechAndGetPasswd(String pass) {
+    private String checkAndGetPasswd(String pass) {
         if (pass.length()<8){
             System.err.println("DEBUG\t Password too short");
-            return -1;
+            return null;
         }
         if (pass.length()>16){
             pass = pass.substring(0, 16);
             System.out.println("DEBUG\t Password too long: " + pass);
-            return 0;
+            return pass;
         }
         if (pass.length()>=8 & pass.length()<16){
             int paddLength = 16 - pass.length();
@@ -167,13 +167,13 @@ public class Encryption {
                 pass = pass.concat("0");
             }
         System.out.println("DEBUG\t Password too short padded: " + pass);
-        return 0;
+        return pass;
         }
         if (pass.length() == 16){
             System.out.println("DEBUG\t Password exactly 16 byte long");
-            return 0;
+            return pass;
         }
-        return -1;
+        return null;
     }
 
     public void cryptAndDelete(String user) throws IOException, NoSuchAlgorithmException, NoSuchProviderException, NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException, ShortBufferException, IllegalBlockSizeException, BadPaddingException {
