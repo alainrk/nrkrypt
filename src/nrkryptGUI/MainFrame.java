@@ -1,5 +1,7 @@
 package nrkryptGUI;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import nrkrypt.SingletonRequests;
 
 /**
@@ -201,6 +203,15 @@ public class MainFrame extends javax.swing.JFrame {
         newuserframe.setLocationRelativeTo(null);
         newuserframe.setVisible(true);
         newuserframe.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        
+        /*
+        try {
+            newuserframe.wait();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        * */
+        // TODO Call this function AFTER close of newuserframe
         loadUserComboBox();
     }//GEN-LAST:event_jButton1MouseReleased
 
