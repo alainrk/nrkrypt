@@ -201,7 +201,7 @@ public class Encryption {
         FileOutputStream fos = new FileOutputStream(new File(c.getPathOfMainFolder()+user+".xml"));
         InitCiphers();
         //encryption
-        CBCEncrypt(fis, fos);
+        CBCDecrypt(fis, fos);
         //Delete plain text
         /*File del = new File(c.getPathOfMainFolder()+user+".xml");
         if (del.delete()) {
