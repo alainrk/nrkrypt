@@ -1,7 +1,17 @@
 package nrkryptGUI;
 
+import java.io.IOException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.ShortBufferException;
+import nrkrypt.Encryption;
 import nrkrypt.SingletonRequests;
 
 /**
@@ -147,6 +157,11 @@ public class MainFrame extends javax.swing.JFrame {
         });
 
         jButton2.setText("Login");
+        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton2MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -203,6 +218,7 @@ public class MainFrame extends javax.swing.JFrame {
         newuserframe.setLocationRelativeTo(null);
         newuserframe.setVisible(true);
         newuserframe.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        //TODO: Update the users combo box now!!
         
         /*
         try {
@@ -214,6 +230,36 @@ public class MainFrame extends javax.swing.JFrame {
         // TODO Call this function AFTER close of newuserframe
         loadUserComboBox();
     }//GEN-LAST:event_jButton1MouseReleased
+
+    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
+        String user = jComboBox1.getSelectedItem().toString();
+        System.out.println("Selected user: "+user);
+        Encryption bc = new Encryption(String.valueOf(jPasswordField1.getPassword()));
+        int res = -1;
+        try {
+            //TODO: check return value
+            res = bc.decrypt(user);
+        } catch (IOException ex) {
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NoSuchProviderException ex) {
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NoSuchPaddingException ex) {
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InvalidKeyException ex) {
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InvalidAlgorithmParameterException ex) {
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ShortBufferException ex) {
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalBlockSizeException ex) {
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (BadPaddingException ex) {
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_jButton2MouseClicked
 
     /**
      * @param args the command line arguments

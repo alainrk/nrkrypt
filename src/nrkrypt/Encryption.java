@@ -183,7 +183,35 @@ public class Encryption {
         InitCiphers();
         //encryption
         CBCEncrypt(fis, fos);
-        return 0;
+        //Delete plain text
+        File del = new File(c.getPathOfMainFolder()+user+".xml");
+        if (del.delete()) {
+            System.out.println("Plaintext XML removed.");
+            return 0;
+        }
+        else   {
+            System.err.println("Plaintext XML removing ERROR!");
+            return 0;    
+        }
     }
     
+        public int decrypt (String user) throws IOException, NoSuchAlgorithmException, NoSuchProviderException, NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException, ShortBufferException, IllegalBlockSizeException, BadPaddingException {
+        Configurations c = new Configurations();
+        FileInputStream fis = new FileInputStream(new File(c.getPathOfMainFolder()+user+".crypt"));
+        FileOutputStream fos = new FileOutputStream(new File(c.getPathOfMainFolder()+user+".xml"));
+        InitCiphers();
+        //encryption
+        CBCEncrypt(fis, fos);
+        //Delete plain text
+        /*File del = new File(c.getPathOfMainFolder()+user+".xml");
+        if (del.delete()) {
+            System.out.println("Plaintext XML removed.");
+            return 0;
+        }
+        else   {
+            System.err.println("Plaintext XML removing ERROR!");
+            return 0;    
+        }*/
+        return 0;
+    }
 }
